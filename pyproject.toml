@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydiscogs"
+dynamic = ["version"]
+description = "Streaming client for the Discogs monthly data dumps (no API key)"
+license = { text = "Apache-2.0" }
+authors = [{ name = "JarbasAi", email = "jarbasai@mailfence.com" }]
+requires-python = ">=3.8"
+dependencies = [
+    "requests",
+    "unblock_requests",
+]
+
+[project.optional-dependencies]
+lxml = ["lxml"]
+dataset = ["datasets"]
+test = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/TigreGotico/pydiscogs"
+
+[tool.setuptools.dynamic]
+version = { attr = "pydiscogs.version.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["pydiscogs*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: hits the live Discogs dump index/objects over the network",
+]

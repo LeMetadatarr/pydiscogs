@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+.env
+.pytest_cache/
+*.csv
+*.nfo
+*.sqlite
+*.jsonl
+*_state.json
+*.done
+# never commit downloaded dumps or the cache
+*.xml.gz
+.cache/
+# ...but the small offline test fixtures are tracked
+!tests/fixtures/*.xml.gz
