@@ -1,4 +1,4 @@
-"""Build the canonical metadatarr ExternalIds.extra dict from a release."""
+"""Build the flat external-ID dict (discogs_ namespace) from a release."""
 import pydiscogs
 
 

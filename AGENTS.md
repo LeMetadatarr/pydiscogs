@@ -32,7 +32,7 @@ If the shared venv has broken third-party pytest plugins, run with `PYTEST_DISAB
 - `pydiscogs/entity.py` — `ENTITIES` registry mapping dataset name -> XML record tag -> model -> canonical id field.
 - `pydiscogs/bulk.py` — `list_dumps`, `latest_dump`, `download` (cached on-disk), `stream(name, limit)` (memory-safe gzip+iterparse), `stream_local`, `checksums`.
 - `pydiscogs/dataset.py` — `DATASET_CONFIGS`, `iter_records`, `export_jsonl`, `streaming_configs`.
-- `pydiscogs/ids.py` — `*_to_extra` (build the metadatarr `ExternalIds.extra` dict, namespaced `discogs_`) and `id_from_url`.
+- `pydiscogs/ids.py` — `*_to_extra` (build a flat `str -> str` dict of namespaced external IDs, anchor key `discogs_id`, for cross-referencing across sources) and `id_from_url`.
 - `pydiscogs/_clean.py` — internal string/number/year cleaning helpers.
 - `examples/` — runnable one-call scripts; `docs/` — usage docs; `dataset.py` + `docs/dataset.md` cover HF streaming + JSONL export.
 

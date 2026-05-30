@@ -1,4 +1,4 @@
-"""Canonical Discogs join-ids for the metadatarr ``ExternalIds.extra`` anchor.
+"""Canonical Discogs join-ids for cross-referencing across sources.
 
 Discogs ids are the de-facto join keys across the music-metadata ecosystem
 (MusicBrainz relations, RYM, Bandcamp scrapes, ...). Each entity contributes one
@@ -9,7 +9,8 @@ Discogs ids are the de-facto join keys across the music-metadata ecosystem
 - ``discogs_master_id``  — :class:`~pydiscogs.models.Master`
 - ``discogs_release_id`` — :class:`~pydiscogs.models.Release`
 
-``*_to_extra`` builds the flat string dict consumed by ``ExternalIds.extra``;
+``*_to_extra`` builds a flat ``str -> str`` dict of namespaced external IDs,
+anchored on ``discogs_id``, ready for cross-referencing across sources.
 ``id_from_url`` recovers the id from any discogs.com URL.
 """
 from __future__ import annotations

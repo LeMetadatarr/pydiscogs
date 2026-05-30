@@ -35,7 +35,7 @@ for d in pydiscogs.list_dumps():
 for label in pydiscogs.stream("labels", limit=100):
     print(label.id, label.name)
 
-# canonical join-id anchor for metadatarr ExternalIds.extra
+# flat str->str dict of namespaced external IDs, anchor key discogs_id
 release = next(pydiscogs.stream("releases", limit=1))
 print(pydiscogs.release_to_extra(release))
 # {'discogs_release_id': '...', 'discogs_master_id': '...', ...}
@@ -73,6 +73,13 @@ an optional supplement.
 ## Docs
 
 See [docs/](docs/) and runnable [examples/](examples/).
+
+## Known limitations
+
+Streaming is verified against dump fixtures and has been smoke-tested over HTTP.
+The Discogs download front rate-limits aggressively (HTTP 429). A full live
+download may be interrupted; install `unblock_requests[anon]` (proxy rotation) to
+retry on 429. No clean full-run has been recorded against the live dumps.
 
 ## License
 

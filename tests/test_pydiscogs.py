@@ -88,7 +88,7 @@ def test_elements_are_cleared(fixtures_dir):
 
 
 # ---------------------------------------------------------------------------
-# ids / metadatarr extra
+# ids / external ID dict
 # ---------------------------------------------------------------------------
 
 def test_release_to_extra(fixtures_dir):

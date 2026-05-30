@@ -1,4 +1,4 @@
-# Canonical ids & ExternalIds.extra
+# Canonical ids & external ID dict
 
 Discogs ids are the de-facto join keys across the music-metadata ecosystem. Each
 entity contributes one canonical `<site>_id` anchor under the `discogs_`
@@ -11,10 +11,10 @@ namespace:
 | Master   | `discogs_master_id`   |
 | Release  | `discogs_release_id`  |
 
-## Building the extra dict
+## Building the external ID dict
 
-`*_to_extra` produces a flat `str -> str` dict ready to merge into a metadatarr
-`ExternalIds.extra`:
+`*_to_extra` produces a flat `str -> str` dict of namespaced external IDs,
+anchor key `discogs_id`, for cross-referencing across sources:
 
 ```python
 import pydiscogs

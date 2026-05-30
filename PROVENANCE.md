@@ -31,7 +31,7 @@ Discogs API spec (https://www.discogs.com/developers/).
 - `masters.xml.gz`  -> `Master`  (id, main_release, title, year, artists, genres, styles)
 - `releases.xml.gz` -> `Release` (id, master_id, title, status, country, year, artists, extra credits, labels, catalog numbers, genres, styles, formats, tracklist)
 
-Canonical join ids emitted into `ExternalIds.extra`: `discogs_artist_id`,
+Canonical join ids (flat `str -> str` dict, anchor key `discogs_id`): `discogs_artist_id`,
 `discogs_label_id`, `discogs_master_id`, `discogs_release_id`.
 
 ## Reading method (memory safety)
