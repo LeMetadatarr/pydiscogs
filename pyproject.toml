@@ -39,4 +39,5 @@ include = ["pydiscogs*"]
 [tool.pytest.ini_options]
 markers = [
     "live: hits the live Discogs dump index/objects over the network",
+    "live: hits the live Discogs REST API (requires DISCOGS_TOKEN)",
 ]

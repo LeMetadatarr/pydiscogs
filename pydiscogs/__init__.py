@@ -43,6 +43,15 @@ from pydiscogs.ids import (
     master_to_extra,
     release_to_extra,
 )
+from pydiscogs import live
+from pydiscogs.live import (
+    get_artist,
+    get_release,
+    get_master,
+    get_label,
+    search,
+    search_iter,
+)
 
 __all__ = [
     "__version__",
@@ -88,4 +97,12 @@ __all__ = [
     "label_to_extra",
     "master_to_extra",
     "release_to_extra",
+    # live API
+    "live",
+    "get_artist",
+    "get_release",
+    "get_master",
+    "get_label",
+    "search",
+    "search_iter",
 ]
