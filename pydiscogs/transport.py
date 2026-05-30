@@ -18,6 +18,7 @@ without pulling the entire file.
 """
 from __future__ import annotations
 
+import os
 import time
 from typing import Any, Dict, Optional
 
@@ -67,9 +68,27 @@ def _make_session() -> Any:
         try:
             from unblock_requests import CloudflareSession
 
-            session = CloudflareSession()
-            session.headers.update(_HEADERS)
-            return session
+            def _new_cf() -> Any:
+                s = CloudflareSession()
+                s.headers.update(_HEADERS)
+                return s
+
+            # Optional IP rotation to dodge rate limits / HTTP 429. Off by
+            # default (free-proxy rotation is slow); enable with PYDISCOGS_ANON=1
+            # — anon_requests composes with CloudflareSession via session_factory,
+            # giving rotating-IP + anti-bot together.
+            if os.environ.get("PYDISCOGS_ANON"):
+                try:
+                    from anon_requests import RotatingProxySession, ProxyType
+
+                    return RotatingProxySession(
+                        proxy_type=ProxyType.SOCKS5,
+                        validate=True,
+                        session_factory=_new_cf,
+                    )
+                except ImportError:
+                    pass
+            return _new_cf()
         except ImportError:
             pass
     import requests

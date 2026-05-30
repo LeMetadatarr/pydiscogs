@@ -17,6 +17,7 @@ dependencies = [
 [project.optional-dependencies]
 lxml = ["lxml"]
 dataset = ["datasets"]
+anon = ["anon_requests"]
 test = ["pytest"]
 
 [project.urls]
