@@ -1,7 +1,7 @@
 """Canonical Discogs join-ids for cross-referencing across sources.
 
 Discogs ids are the de-facto join keys across the music-metadata ecosystem
-(MusicBrainz relations, RYM, Bandcamp scrapes, ...). Each entity contributes one
+(MusicBrainz relations, RYM, Bandcamp, ...). Each entity contributes one
 ``<site>_id`` anchor under the ``discogs_`` namespace:
 
 - ``discogs_artist_id``  — :class:`~pydiscogs.models.Artist`

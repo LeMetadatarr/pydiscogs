@@ -7,8 +7,8 @@ with ``?download=data/<YYYY>/<file>``.  No API key is required; the data is
 released under CC0.
 
 Because the index sits behind Cloudflare, this module routes traffic through
-``unblock_requests.CloudflareSession`` (the org HTTP transport) so the anti-bot
-challenge is handled transparently, with a plain ``requests`` fallback for
+``unblock_requests.CloudflareSession`` (the org standard HTTP transport) for
+consistent TLS/browser-header behaviour, with a plain ``requests`` fallback for
 offline / test environments.
 
 The dump objects are multi-GB gzip files.  This transport never buffers a whole
@@ -73,10 +73,10 @@ def _make_session() -> Any:
                 s.headers.update(_HEADERS)
                 return s
 
-            # Optional IP rotation to dodge rate limits / HTTP 429. Off by
-            # default (free-proxy rotation is slow); enable with PYDISCOGS_ANON=1
+            # Optional IP rotation to handle 429 back-off. Off by default
+            # (free-proxy rotation is slow); enable with PYDISCOGS_ANON=1
             # — anon_requests composes with CloudflareSession via session_factory,
-            # giving rotating-IP + anti-bot together.
+            # giving rotating-IP + consistent headers together.
             if os.environ.get("PYDISCOGS_ANON"):
                 try:
                     from anon_requests import RotatingProxySession, ProxyType
