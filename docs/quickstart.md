@@ -6,7 +6,7 @@
 pip install -e .
 ```
 
-Requires Python >= 3.8 and `unblock_requests` (the dump index is Cloudflare-fronted).
+Quickstart requires Python 3.8 or later and `unblock_requests` (the dump index is Cloudflare-fronted).
 
 ## Stream records
 
@@ -17,9 +17,7 @@ for label in pydiscogs.stream("labels", limit=20):
     print(label.id, label.name, label.urls)
 ```
 
-`stream(name, limit)` accepts an entity name (`artists` / `labels` / `masters` /
-`releases`) or a full object key. With `limit` set it stops reading from the
-network as soon as it has enough records — it never downloads the whole file.
+`stream(name, limit)` accepts an entity name (`artists`, `labels`, `masters`, or `releases`) or a full object key. With `limit` set, it stops reading from the network as soon as it has enough records. It never downloads the whole file.
 
 ## List what is available
 
@@ -44,3 +42,6 @@ print("wrote", n, "records")
 release = next(pydiscogs.stream("releases", limit=1))
 print(pydiscogs.release_to_extra(release)["discogs_release_id"])
 ```
+
+---
+[Home](README.md) · [Dumps →](dumps.md)
