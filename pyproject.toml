@@ -28,7 +28,7 @@ anon = ["anon_requests"]
 test = ["pytest"]
 
 [project.urls]
-Homepage = "https://github.com/TigreGotico/pydiscogs"
+Homepage = "https://github.com/LeMetadatarr/pydiscogs"
 
 [tool.setuptools.dynamic]
 version = { attr = "pydiscogs.version.__version__" }

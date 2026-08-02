@@ -59,9 +59,9 @@ For per-record live lookups, Discogs also offers a REST API at `https://api.disc
 
 ## Related projects
 
-- [TigreGotico/pymusicbrainz](https://github.com/TigreGotico/pymusicbrainz): a sibling streaming dump client for MusicBrainz, using the same memory-safe streaming and external-id pattern.
-- [TigreGotico/pyrateyourmusic](https://github.com/TigreGotico/pyrateyourmusic): a complementary RateYourMusic scraper for community ratings and descriptors.
-- [TigreGotico/unblock_requests](https://github.com/TigreGotico/unblock_requests): the HTTP session library pydiscogs uses to reach the Cloudflare-fronted dump index.
+- [LeMetadatarr/pymusicbrainz](https://github.com/LeMetadatarr/pymusicbrainz): a sibling streaming dump client for MusicBrainz, using the same memory-safe streaming and external-id pattern.
+- [LeMetadatarr/pyrateyourmusic](https://github.com/LeMetadatarr/pyrateyourmusic): a complementary RateYourMusic scraper for community ratings and descriptors.
+- [LeMetadatarr/unblock_requests](https://github.com/LeMetadatarr/unblock_requests): the HTTP session library pydiscogs uses to reach the Cloudflare-fronted dump index.
 
 ## Docs
 
