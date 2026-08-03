@@ -1,6 +1,7 @@
 """Offline tests (gzip fixtures) plus one live smoke test (-m live)."""
 import json
 import os
+import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -77,6 +78,49 @@ def test_stream_releases_offline(fixtures_dir):
 def test_limit_stops_early(fixtures_dir):
     got = list(bulk.stream_local(_fixture(fixtures_dir, "artists"), "artists", limit=2))
     assert len(got) == 2
+
+
+def test_release_from_element_with_empty_artists_tag(fixtures_dir):
+    """Regression: Release.from_element used `elem.find("artists") or []`,
+    which relies on an ElementTree Element's truth value (already emits a
+    DeprecationWarning under Python 3.12+, since Element.__bool__ is going
+    away). An empty-but-present <artists></artists> node has len() == 0, so
+    it was silently treated the same as a missing node today -- but under
+    the future semantics where Element is always truthy, the same code would
+    try to iterate `True` and raise TypeError."""
+    xml = (
+        '<release id="99" status="Accepted">'
+        "<title>No Credits</title>"
+        "<artists></artists>"
+        "<extraartists></extraartists>"
+        "<formats></formats>"
+        "<tracklist></tracklist>"
+        "</release>"
+    )
+    elem = ET.fromstring(xml)
+    r = Release.from_element(elem)
+    assert r.artists == []
+    assert r.extra_artists == []
+    assert r.formats == []
+    assert r.tracklist == []
+
+
+def test_release_from_element_missing_artists_tag(fixtures_dir):
+    """Same guarantee when the tag is absent entirely, not just empty."""
+    xml = '<release id="100" status="Accepted"><title>Bare</title></release>'
+    elem = ET.fromstring(xml)
+    r = Release.from_element(elem)
+    assert r.artists == []
+    assert r.extra_artists == []
+    assert r.formats == []
+    assert r.tracklist == []
+
+
+def test_master_from_element_with_empty_artists_tag(fixtures_dir):
+    xml = '<master id="200"><title>No Credits</title><artists></artists></master>'
+    elem = ET.fromstring(xml)
+    m = Master.from_element(elem)
+    assert m.artists == []
 
 
 def test_elements_are_cleared(fixtures_dir):

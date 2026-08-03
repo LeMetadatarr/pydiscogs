@@ -27,6 +27,21 @@ def _load(name: str) -> dict:
 # Offline: parse captured fixture JSON through the model mappers
 # ---------------------------------------------------------------------------
 
+def test_user_agent_points_at_lemetadatarr_org():
+    """Regression: the User-Agent used to advertise the stale TigreGotico org."""
+    assert "LeMetadatarr/pydiscogs" in live._USER_AGENT
+    assert "TigreGotico" not in live._USER_AGENT
+
+
+def test_user_agent_tracks_package_version():
+    """Regression: the User-Agent hardcoded '0.0.1' independently of
+    pydiscogs.version.__version__, so it would silently go stale on every
+    semver bump (version.py is bumped by CI, never by hand)."""
+    from pydiscogs.version import __version__
+
+    assert live._USER_AGENT.startswith(f"pydiscogs/{__version__} ")
+
+
 class TestArtistFromApi:
     def setup_method(self):
         self.data = _load("live_artist_1.json")
@@ -54,6 +69,21 @@ class TestArtistFromApi:
 
     def test_data_quality(self):
         assert live._artist_from_api(self.data).data_quality == "Needs Vote"
+
+    def test_alias_missing_name_is_skipped_not_a_crash(self):
+        """Regression: aliases/members/groups indexed a["name"] directly, so a
+        malformed entry without a "name" key (real-world Discogs data quality
+        is crowd-sourced and inconsistent, see the guarded sublabels handling
+        in _label_from_api for the same file's own precedent) raised KeyError
+        and aborted the whole get_artist() call."""
+        data = dict(self.data)
+        data["aliases"] = [{"id": 1}, {"id": 2, "name": "Real Alias"}]
+        data["members"] = [{"id": 3}]
+        data["groups"] = [{"id": 4}]
+        artist = live._artist_from_api(data)
+        assert artist.aliases == ["Real Alias"]
+        assert artist.members == []
+        assert artist.groups == []
 
 
 class TestReleaseFromApi:

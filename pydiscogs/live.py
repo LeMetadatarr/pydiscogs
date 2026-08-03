@@ -25,7 +25,7 @@ User-Agent
 ----------
 Discogs requires a meaningful User-Agent string.  This module sends::
 
-    pydiscogs/<version> +https://github.com/TigreGotico/pydiscogs
+    pydiscogs/<version> +https://github.com/LeMetadatarr/pydiscogs
 
 Verified live
 -------------
@@ -46,6 +46,7 @@ from typing import Any, Dict, Iterator, List, Optional
 
 from pydiscogs.models import Artist, ArtistCredit, Label, Master, Release, ReleaseFormat, Track
 from pydiscogs._clean import clean_str, dedupe, parse_year, to_int
+from pydiscogs.version import __version__
 
 # ---------------------------------------------------------------------------
 # Module-level config
@@ -53,7 +54,7 @@ from pydiscogs._clean import clean_str, dedupe, parse_year, to_int
 
 API_BASE = "https://api.discogs.com"
 
-_USER_AGENT = "pydiscogs/0.0.1 +https://github.com/TigreGotico/pydiscogs"
+_USER_AGENT = f"pydiscogs/{__version__} +https://github.com/LeMetadatarr/pydiscogs"
 
 _RETRY_DELAY: float = 5.0   # seconds to wait after a 429
 _REQUEST_DELAY: float = 1.1  # polite default: ~54 req/min (below the 60 authed limit)
@@ -124,13 +125,13 @@ def _api_get(path: str, params: Optional[Dict[str, Any]] = None,
 def _artist_from_api(data: Dict[str, Any]) -> Artist:
     """Map a ``GET /artists/{id}`` response dict to an :class:`Artist`."""
     aliases_raw = data.get("aliases") or []
-    aliases = [a["name"] for a in aliases_raw if isinstance(a, dict)]
+    aliases = [a["name"] for a in aliases_raw if isinstance(a, dict) and a.get("name")]
 
     members_raw = data.get("members") or []
-    members = [m["name"] for m in members_raw if isinstance(m, dict)]
+    members = [m["name"] for m in members_raw if isinstance(m, dict) and m.get("name")]
 
     groups_raw = data.get("groups") or []
-    groups = [g["name"] for g in groups_raw if isinstance(g, dict)]
+    groups = [g["name"] for g in groups_raw if isinstance(g, dict) and g.get("name")]
 
     name_variations = data.get("namevariations") or []
 

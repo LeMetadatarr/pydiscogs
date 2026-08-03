@@ -28,6 +28,19 @@ def _text(elem, path: str) -> str:
     return clean_str(node.text) if node is not None else ""
 
 
+def _children(elem, path: str) -> list:
+    """Return the child elements at ``path``, or ``[]`` if absent.
+
+    ``elem.find(path) or []`` is unsafe: an ``Element``'s truth value is
+    based on ``len()`` today (and raises a ``DeprecationWarning``; a future
+    Python drops the check and always treats it as truthy), so an empty-but-
+    present node silently falls through the same way a missing one does, and
+    a truthy-but-empty edge case would try to iterate a non-list.
+    """
+    node = elem.find(path)
+    return list(node) if node is not None else []
+
+
 # ---------------------------------------------------------------------------
 # Sub-dataclasses
 # ---------------------------------------------------------------------------
@@ -258,7 +271,7 @@ class Master:
             data_quality=_text(elem, "data_quality"),
             artists=[
                 ArtistCredit.from_element(a)
-                for a in (elem.find("artists") or [])
+                for a in _children(elem, "artists")
             ],
             genres=dedupe(_texts(elem.find("genres"), "genre")),
             styles=dedupe(_texts(elem.find("styles"), "style")),
@@ -347,11 +360,11 @@ class Release:
             data_quality=_text(elem, "data_quality"),
             artists=[
                 ArtistCredit.from_element(a)
-                for a in (elem.find("artists") or [])
+                for a in _children(elem, "artists")
             ],
             extra_artists=[
                 ArtistCredit.from_element(a)
-                for a in (elem.find("extraartists") or [])
+                for a in _children(elem, "extraartists")
             ],
             labels=dedupe(labels),
             catalog_numbers=dedupe(catnos),
@@ -359,10 +372,10 @@ class Release:
             styles=dedupe(_texts(elem.find("styles"), "style")),
             formats=[
                 ReleaseFormat.from_element(f)
-                for f in (elem.find("formats") or [])
+                for f in _children(elem, "formats")
             ],
             tracklist=[
                 Track.from_element(t)
-                for t in (elem.find("tracklist") or [])
+                for t in _children(elem, "tracklist")
             ],
         )
